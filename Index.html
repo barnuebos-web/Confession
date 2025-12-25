@@ -3,17 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Choco & Milk Letter</title>
+<title>Nailong Letter</title>
 <style>
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #f7efe5;
+  background: #fff0f5;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
+
+/* Floating emojis */
+.floating {
+  position: absolute;
+  font-size: 24px;
+  animation: float 6s linear infinite;
+}
+@keyframes float {
+  0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity:1; }
+  100% { transform: translateY(-50px) translateX(50px) rotate(360deg); opacity:0; }
+}
+
+/* Envelope */
 .envelope {
   width: 280px;
   height: 190px;
@@ -22,6 +37,7 @@ body {
   cursor: pointer;
   border-radius: 8px;
   transition: transform 0.8s ease, opacity 0.8s ease;
+  z-index: 10;
 }
 .envelope.open {
   transform: scale(0.2);
@@ -45,106 +61,172 @@ body {
   font-weight: bold;
   letter-spacing: 1px;
 }
-.panels {
+
+/* Panel menu */
+.panel-menu {
   display: none;
-  grid-template-columns: 1fr 1fr;
   gap: 18px;
-  padding: 20px;
-  max-width: 700px;
-}
-.panel {
-  background: #fff;
-  border-radius: 16px;
-  padding: 18px;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-}
-.roses {
   text-align: center;
 }
-.music {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-.album {
-  background: #f3f3f3;
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-size: 14px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-.letter {
-  font-size: 14px;
-  line-height: 1.6;
-}
-.question {
-  display: flex;
-  flex-direction: column;
+.card {
+  width: 140px;
+  height: 140px;
+  background: #ffe4e1;
+  border-radius: 16px;
+  margin: 10px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  font-size: 20px;
   font-weight: bold;
-  text-align: center;
-  background: linear-gradient(#fff7d6, #fff);
+  cursor: pointer;
+  font-size: 22px;
+  transition: transform 0.3s ease;
 }
-.choco-milk {
-  font-size: 50px;
-  margin-top: 10px;
+.card:hover {
+  transform: scale(1.05);
 }
-.button-group {
-  margin-top: 15px;
+
+/* Full panel */
+.panel-full {
+  display: none;
+  position: absolute;
+  top:0; left:0; right:0; bottom:0;
+  background: #fff;
+  padding: 20px;
+  overflow-y: auto;
 }
-button {
+.panel-full img {
+  width: 100%;
+  border-radius: 12px;
+  border: 2px solid #ff6b81;
+}
+.button-back {
+  margin-top: 20px;
   padding: 8px 15px;
-  margin: 0 8px;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
+  background: #ff6b81;
+  color: #fff;
   cursor: pointer;
 }
-.yes { background: #ffca28; }
-.no { background: #e0e0e0; }
+
+/* Music album */
+.album {
+  text-align: center;
+  margin: 10px;
+}
+.album img {
+  width: 100px;
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto;
+}
+.album p {
+  margin-top: 5px;
+  font-weight: bold;
+}
 </style>
 </head>
 <body>
-<audio id="bgMusic" src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" autoplay loop></audio>
+
+<!-- Floating hearts & dinos -->
+<div class="floating" style="left:5%;">🦕</div>
+<div class="floating" style="left:15%;">💖</div>
+<div class="floating" style="left:25%;">🦖</div>
+<div class="floating" style="left:35%;">💕</div>
+<div class="floating" style="left:45%;">🦕</div>
+<div class="floating" style="left:55%;">💗</div>
+<div class="floating" style="left:65%;">🦖</div>
+<div class="floating" style="left:75%;">❤️</div>
+<div class="floating" style="left:85%;">🦕</div>
+<div class="floating" style="left:95%;">💖</div>
+
+<!-- Background music -->
+<audio id="bgMusic" src="https://p.scdn.co/mp3-preview/0a0a0c9cf6fa7ed0f47a1c4d4b59ef31c3f08a2b?cid=774b29d4f13844c495f206cafdad9c86" loop></audio>
+
+<!-- Envelope -->
 <div class="envelope" id="env" onclick="openLetter()">
   <div class="flap"></div>
   <div class="env-text">Tap to open 💌</div>
 </div>
-<div class="panels" id="panels">
-  <div class="panel roses">
-    <img src="https://i.ibb.co/3Wqgphf/roses-bouquet.jpg" alt="Bouquet of roses" style="width:100%; border-radius:12px;">
-  </div>
-  <div class="panel">
-    <div class="music">
-      <div class="album">🎧 Last Night on Earth</div>
-      <div class="album">🎶 Nothing – Bruno Major</div>
-      <div class="album">💿 Wanna Be Yours</div>
-    </div>
-  </div>
-  <div class="panel letter">
-    Hi Johanna, I hope you're enjoying this gift so far and I hope you love it. Thank you for showing me what real love means and it really means a lot to me. I am beyond grateful to you. Thank you for always caring, worrying, and understanding.<br><br>From the moment I met you, my heart knew that you were someone special. Your laughter brightens my darkest days, your smile warms my soul, and your presence fills my life with happiness. I cherish every moment we spend together and I am constantly in awe of the person you are.
-  </div>
-  <div class="panel question">
-    Will you do the honor of being my girlfriend? 💛
-    <div class="choco-milk">🥛🍫</div>
-    <div class="button-group">
-      <button class="yes" onclick="alert('She said YES! 💖')">Yes! 💕</button>
-      <button class="no" onclick="alert('It\'s okay 🙂')">No... 😅</button>
-    </div>
-  </div>
+
+<!-- Menu -->
+<div class="panel-menu" id="panelMenu">
+  <div class="card" onclick="showPanel('roses')">🌹 Roses</div>
+  <div class="card" onclick="showPanel('music')">🎧 Music</div>
+  <div class="card" onclick="showPanel('letter')">✉️ Letter</div>
+  <div class="card" onclick="showPanel('proposal')">💛 Proposal</div>
 </div>
+
+<!-- Panels -->
+<div class="panel-full" id="roses">
+  <h2>🌹 Bouquet of Roses</h2>
+  <img src="https://i.ibb.co/0y0Yt7b/roses-bouquet.jpg" alt="Bouquet of roses">
+  <button class="button-back" onclick="backToMenu('roses')">Back</button>
+</div>
+
+<div class="panel-full" id="music">
+  <h2>🎶 Favorite Songs</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center;">
+    <div class="album">
+      <img src="https://i.ibb.co/album1.jpg" alt="Last Night on Earth">
+      <p>Last Night on Earth</p>
+    </div>
+    <div class="album">
+      <img src="https://i.ibb.co/album2.jpg" alt="Nothing – Bruno Major">
+      <p>Nothing – Bruno Major</p>
+    </div>
+    <div class="album">
+      <img src="https://i.ibb.co/album3.jpg" alt="Wanna Be Yours">
+      <p>Wanna Be Yours</p>
+    </div>
+  </div>
+  <button class="button-back" onclick="backToMenu('music')">Back</button>
+</div>
+
+<div class="panel-full" id="letter">
+  <h2>✉️ My Letter</h2>
+  <p>Hi Johanna, I hope you're enjoying this gift so far and I hope you love it. Thank you for showing me what real love means and it really means a lot to me. I am beyond grateful to you. Thank you for always caring, worrying, and understanding.<br><br>
+  From the moment I met you, my heart knew that you were someone special. Your laughter brightens my darkest days, your smile warms my soul, and your presence fills my life with happiness. I cherish every moment we spend together and I am constantly in awe of the person you are.</p>
+  <button class="button-back" onclick="backToMenu('letter')">Back</button>
+</div>
+
+<div class="panel-full" id="proposal">
+  <h2>💛 Will You Be My Girlfriend?</h2>
+  <div style="font-size:50px;">🦕💖</div>
+  <div>
+    <button onclick="alert('She said YES! 💖')">Yes! 💕</button>
+    <button onclick="alert('It\'s okay 🙂')">No... 😅</button>
+  </div>
+  <button class="button-back" onclick="backToMenu('proposal')">Back</button>
+</div>
+
 <script>
 function openLetter() {
   document.getElementById("env").classList.add("open");
   setTimeout(() => {
     document.getElementById("env").style.display = "none";
-    document.getElementById("panels").style.display = "grid";
+    document.getElementById("panelMenu").style.display = "block";
     document.getElementById("bgMusic").play();
   }, 800);
 }
+
+function showPanel(id) {
+  document.getElementById("panelMenu").style.display = "none";
+  document.getElementById(id).style.display = "block";
+}
+
+function backToMenu(id) {
+  document.getElementById(id).style.display = "none";
+  document.getElementById("panelMenu").style.display = "block";
+}
+
+// Floating emojis animation delay
+const floating = document.querySelectorAll('.floating');
+floating.forEach((el, i) => {
+  el.style.animationDelay = `${i * 1.2}s`;
+});
 </script>
 </body>
-</html>
+  </html>
